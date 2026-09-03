@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike-Able | Nigeria's Eco-Friendly Dispatch Network</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 <body class="bg-white text-slate-900 font-sans antialiased">
 
-  <!-- Navigation Bar -->
   <nav class="bg-black text-white sticky top-0 z-50 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       
-      <!-- Brand Logo -->
       <a href="#" class="flex items-center space-x-2">
         <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="50" cy="50" r="40" stroke="#2563EB" stroke-width="8" stroke-dasharray="180 40" transform="rotate(-45 50 50)" />
@@ -23,21 +22,19 @@
         <span class="text-2xl font-black tracking-tight text-white">Bike-<span class="text-blue-500">Able</span></span>
       </a>
 
-      <!-- Navigation & Dropdowns -->
       <div class="flex items-center space-x-4">
         
-        <!-- Menu Dropdown -->
         <div class="relative inline-block text-left">
           <button onclick="toggleDropdown('menuDropdown')" class="bg-slate-900 border border-slate-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2 hover:bg-slate-800 transition">
             <span>Menu</span>
             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
           </button>
 
-          <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-2xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 z-50 text-slate-900">
+          <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-64 rounded-2xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 z-50 text-slate-900">
             <div class="py-2">
               <a href="#request" class="block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Book Dispatch</a>
               <a href="#news" class="block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Fuel & Emission News</a>
-              <a href="#safety" class="block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Safety Standards</a>
+              <a href="#safety" class="block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Safety & 7-Day Verification</a>
             </div>
             <div class="py-2">
               <button onclick="openModal('riderModal'); toggleDropdown('menuDropdown');" class="w-full text-left block px-4 py-2.5 text-sm font-bold text-blue-600 hover:bg-blue-50">Rider Registration</button>
@@ -45,7 +42,7 @@
             </div>
             <div class="py-2">
               <button onclick="openModal('contactModal'); toggleDropdown('menuDropdown');" class="w-full text-left block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Contact Us</button>
-              <button onclick="openModal('helpModal'); toggleDropdown('menuDropdown');" class="w-full text-left block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Help Desk & Support</button>
+              <button onclick="openModal('helpModal'); toggleDropdown('menuDropdown');" class="w-full text-left block px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Help Desk & Escrow Policy</button>
             </div>
           </div>
         </div>
@@ -56,47 +53,63 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <section class="bg-slate-950 text-white py-16 px-6 relative">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
-      <!-- Dispatch Booking Form -->
       <div class="lg:col-span-5 bg-white text-slate-900 p-8 rounded-2xl shadow-2xl" id="request">
         <h2 class="text-3xl font-black mb-2 tracking-tight">Request Courier</h2>
-        <p class="text-slate-500 text-sm mb-6">Zero-fuel urban bicycle dispatch. Rates start from ₦1,000.</p>
+        <p class="text-slate-500 text-sm mb-6">Zero-fuel urban bicycle dispatch. Fare starts at fixed ₦1,000 base.</p>
 
-        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Locating available Bike-Able couriers nearby...');">
-          <input type="text" required placeholder="Pickup Location (e.g., Ikeja, Lagos)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
-          <input type="text" required placeholder="Drop-off Location (e.g., Victoria Island)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
-          <select class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
-            <option>Documents / Light Mail</option>
-            <option>Parcel / Small Box (Up to 5kg)</option>
-            <option>Food & Perishables</option>
-            <option>Bulk Parcel (Cargo Bike)</option>
-          </select>
+        <form class="space-y-4" onsubmit="handleDispatchPayment(event)">
+          <input type="text" id="pickupLoc" required placeholder="Pickup Location (e.g., Ikeja, Lagos)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+          <input type="text" id="dropoffLoc" required placeholder="Drop-off Location (e.g., Victoria Island)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+          
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Package Category</label>
+            <select id="pkgType" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+              <option value="parcel">Parcel / Small Box (Up to 5kg)</option>
+              <option value="food">Food & Perishables</option>
+              <option value="cargo">Bulk Parcel (Cargo Bike)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Payment Method</label>
+            <select id="payMethod" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+              <option value="online">Pay Online to Bike-Able (Escrow Guaranteed)</option>
+              <option value="cash">Cash on Delivery</option>
+            </select>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div class="flex justify-between text-sm font-bold">
+              <span>Estimated Delivery Fare:</span>
+              <span class="text-blue-600" id="fareEstimate">₦1,000</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">Payments made directly to Bike-Able account. Rider is credited upon verified delivery.</p>
+          </div>
+
           <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg">
-            Find Available Couriers
+            Proceed to Payment & Request Rider
           </button>
         </form>
       </div>
 
-      <!-- Hero Message -->
       <div class="lg:col-span-7 space-y-6">
         <span class="inline-block bg-blue-600/20 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-          Zero Fuel Surcharge • Zero Emissions
+          Direct Platform Escrow • Verified Security
         </span>
         <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-none">
-          Beat High Fuel Costs. Deliver Smarter.
+          Beat High Fuel Costs. Deliver Safely.
         </h1>
         <p class="text-slate-300 text-lg">
-          Bike-Able connects Nigerian businesses and individuals with vetted bicycle couriers. Avoid traffic standstills and fuel price hikes while reducing city carbon footprints.
+          Bike-Able connects Nigerian businesses and individuals with vetted bicycle couriers. Avoid traffic standstills and fuel price hikes while keeping your parcels fully secured.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- News Section: Fuel & Carbon Emissions -->
   <section class="py-16 px-6 bg-slate-50" id="news">
     <div class="max-w-7xl mx-auto">
       <div class="mb-10">
@@ -109,7 +122,7 @@
           <span class="text-xs font-bold text-red-600 uppercase tracking-widest">Fuel Economics</span>
           <h3 class="text-xl font-bold text-slate-900 mt-2 mb-3">Insulating Deliveries from Petrol Surges</h3>
           <p class="text-slate-600 text-sm leading-relaxed">
-            By shifting light parcel dispatches to bicycles, local logistics dodge rising PMS petrol costs, keeping base delivery tariffs locked at ₦1,000.
+            By shifting parcel dispatches to bicycles, local logistics dodge rising PMS petrol costs, keeping base delivery tariffs locked at ₦1,000.
           </p>
         </div>
 
@@ -117,7 +130,7 @@
           <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Climate Action</span>
           <h3 class="text-xl font-bold text-slate-900 mt-2 mb-3">Cutting Urban Carbon Emissions</h3>
           <p class="text-slate-600 text-sm leading-relaxed">
-            Every 100 bicycle courier trips save approximately 45kg of CO2 emissions compared to traditional motorbikes, contributing to cleaner air in urban centers.
+            Every 100 bicycle courier trips save approximately 45kg of CO2 emissions compared to traditional motorbikes.
           </p>
         </div>
 
@@ -125,46 +138,68 @@
           <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Efficiency</span>
           <h3 class="text-xl font-bold text-slate-900 mt-2 mb-3">Navigating Gridlock Without Delay</h3>
           <p class="text-slate-600 text-sm leading-relaxed">
-            Bicycle dispatch riders bypass traffic congestion during rush hours in Lagos, Abuja, and Port Harcourt, ensuring fast point-to-point delivery times.
+            Bicycle dispatch riders bypass traffic congestion during rush hours in Lagos, Abuja, and Port Harcourt.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- POPUP MODALS FOR DROPDOWN LINKS -->
-
-  <!-- Rider Registration Modal -->
   <div id="riderModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white text-slate-900 rounded-2xl max-w-xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
       <button onclick="closeModal('riderModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-black text-xl">&times;</button>
       <h3 class="text-2xl font-black mb-1">Bike-Able Rider Registration</h3>
-      <p class="text-xs text-slate-500 mb-6">Complete safety verification to start receiving ride requests.</p>
+      <p class="text-xs text-slate-500 mb-6">Complete safety verification and location protocols to join.</p>
       
-      <form class="space-y-4" onsubmit="event.preventDefault(); alert('Rider application submitted!'); closeModal('riderModal');">
+      <form class="space-y-4" onsubmit="event.preventDefault(); alert('Rider application submitted! Please keep GPS enabled on your device for the 7-day home address verification.'); closeModal('riderModal');">
         <input type="text" required placeholder="Full Name" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
-        <input type="tel" required placeholder="WhatsApp Phone (+234)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
+        <input type="tel" required placeholder="WhatsApp Phone Number (+234)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
+        <input type="text" required placeholder="Residential Home Address" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
         <input type="text" required placeholder="Operating State & City Area" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
-        <select class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
-          <option>Standard Road / City Bike</option>
-          <option>Cargo Bike / Heavy Frame</option>
-          <option>E-Bike (Electric Assisted)</option>
-        </select>
-        <input type="number" min="1000" required placeholder="Base Rate (Min ₦1,000)" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
         
-        <div class="border-t pt-3 space-y-2">
-          <label class="block text-xs font-bold text-slate-700">Clear Passport Photo</label>
-          <input type="file" required class="w-full text-xs text-slate-500">
-          <label class="block text-xs font-bold text-slate-700">National ID (NIN / Voters Card / License)</label>
-          <input type="file" required class="w-full text-xs text-slate-500">
-          <input type="text" required placeholder="Guarantor Name & Contact" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">Bicycle Category</label>
+          <select class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
+            <option>Standard Road / City Bike</option>
+            <option>Cargo Bike / Heavy Frame</option>
+            <option>E-Bike (Electric Assisted)</option>
+          </select>
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition">Submit Rider Verification</button>
+
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl">
+          <div class="text-xs font-bold text-blue-900">Standard Base Delivery Fare</div>
+          <div class="text-sm font-black text-blue-700">₦1,000 (Standard Non-Negotiable Base)</div>
+          <p class="text-[11px] text-blue-600 mt-0.5">All riders operate on Bike-Able standard delivery pricing structured by distance.</p>
+        </div>
+        
+        <div class="border-t pt-3 space-y-3">
+          <label class="block text-xs font-bold text-slate-700 uppercase">Verification Documents</label>
+          
+          <div>
+            <span class="text-xs text-slate-600 block mb-1">Clear Passport Photo</span>
+            <input type="file" required class="w-full text-xs text-slate-500">
+          </div>
+
+          <div>
+            <span class="text-xs text-slate-600 block mb-1">National ID (NIN / Voters Card / License)</span>
+            <input type="file" required class="w-full text-xs text-slate-500">
+          </div>
+
+          <input type="text" required placeholder="Guarantor Name & Active Contact Number" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium">
+
+          <div class="p-3 bg-slate-100 border rounded-xl flex items-start space-x-3">
+            <input type="checkbox" id="gpsConsent" required class="mt-1">
+            <label for="gpsConsent" class="text-xs text-slate-700 leading-relaxed">
+              <strong>7-Day Address Verification Protocol:</strong> I agree to keep my background location/GPS active for 7 consecutive days on the Bike-Able app to verify my residential home address before full account activation.
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition">Submit Rider Application</button>
       </form>
     </div>
   </div>
 
-  <!-- User Registration Modal -->
   <div id="userModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white text-slate-900 rounded-2xl max-w-md w-full p-8 relative">
       <button onclick="closeModal('userModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-black text-xl">&times;</button>
@@ -179,7 +214,6 @@
     </div>
   </div>
 
-  <!-- Contact Us Modal -->
   <div id="contactModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white text-slate-900 rounded-2xl max-w-md w-full p-8 relative">
       <button onclick="closeModal('contactModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-black text-xl">&times;</button>
@@ -194,29 +228,23 @@
     </div>
   </div>
 
-  <!-- Help Desk Modal -->
   <div id="helpModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white text-slate-900 rounded-2xl max-w-md w-full p-8 relative">
       <button onclick="closeModal('helpModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-black text-xl">&times;</button>
-      <h3 class="text-2xl font-black mb-1">Help Desk & Support</h3>
+      <h3 class="text-2xl font-black mb-1">Help Desk & Payments Policy</h3>
       <div class="space-y-4 mt-4 text-sm text-slate-600">
         <div class="p-3 bg-slate-50 rounded-xl border">
-          <strong class="block text-slate-900 font-bold">Minimum Tariff</strong>
-          The minimum dispatch fare across all riders is fixed at ₦1,000 per trip.
+          <strong class="block text-slate-900 font-bold">Central Escrow Payment</strong>
+          All non-cash delivery payments are paid directly to Bike-Able. The money is held securely and only transferred to the rider once the parcel is safely delivered.
         </div>
         <div class="p-3 bg-slate-50 rounded-xl border">
-          <strong class="block text-slate-900 font-bold">Rider Safety Verification</strong>
-          All riders must submit NIN documentation and a verified guarantor prior to approval.
-        </div>
-        <div class="p-3 bg-slate-50 rounded-xl border">
-          <strong class="block text-slate-900 font-bold">Support Line</strong>
-          Reach out via WhatsApp or phone at +234 800 BIKE ABLE.
+          <strong class="block text-slate-900 font-bold">7-Day Location Protocol</strong>
+          Riders undergo 7 days of automated GPS home address verification before full account approval to safeguard customer shipments.
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Interactive Modal Script -->
   <script>
     function toggleDropdown(id) {
       document.getElementById(id).classList.toggle('hidden');
@@ -227,9 +255,31 @@
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');
     }
+
+    function handleDispatchPayment(e) {
+      e.preventDefault();
+      const method = document.getElementById('payMethod').value;
+      if (method === 'online') {
+        let handler = PaystackPop.setup({
+          key: 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY', // Replace with your Paystack Public Key
+          email: 'customer@bikeable.ng',
+          amount: 100000, // ₦1,000 in Kobo
+          currency: 'NGN',
+          ref: 'BA_' + Math.floor((Math.random() * 1000000000) + 1),
+          onClose: function() {
+            alert('Payment window closed.');
+          },
+          callback: function(response) {
+            alert('Payment successful! Reference: ' + response.reference + '. Your rider is dispatched.');
+          }
+        });
+        handler.openIframe();
+      } else {
+        alert('Dispatch requested! Cash payment of ₦1,000 will be collected by rider upon delivery.');
+      }
+    }
   </script>
 
-  <!-- Footer -->
   <footer class="bg-black text-slate-400 py-8 px-6 text-center text-xs border-t border-slate-900">
     <p>&copy; 2026 Bike-Able Technologies Nigeria. All rights reserved.</p>
   </footer>
