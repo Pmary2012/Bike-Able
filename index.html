@@ -1,169 +1,300 @@
-index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bike-Able | Bicycle Dispatch & Courier Network Nigeria</title>
+  <title>Bike-Able | Fast Urban Bicycle Dispatch & Courier Network Nigeria</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans">
+<body class="bg-white text-slate-900 font-sans antialiased">
 
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+  <!-- Navigation Bar (Uber-Style Header) -->
+  <nav class="bg-black text-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       
-      <!-- Blue & Black Logo -->
-      <a href="#" class="flex items-center space-x-2">
-        <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="40" stroke="#2563EB" stroke-width="8" stroke-dasharray="180 40" transform="rotate(-45 50 50)" />
-          <circle cx="50" cy="50" r="18" fill="#0F172A" />
-          <circle cx="50" cy="50" r="6" fill="#2563EB" />
-          <path d="M 80 30 L 98 20 L 88 38 Z" fill="#2563EB" />
-          <path d="M 85 50 L 105 45 L 92 58 Z" fill="#0F172A" />
-        </svg>
-        <span class="text-2xl font-black text-slate-900 tracking-tight">Bike-<span class="text-blue-600">Able</span></span>
-      </a>
+      <!-- Logo & Main Nav Links -->
+      <div class="flex items-center space-x-8">
+        <a href="#" class="flex items-center space-x-2">
+          <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#2563EB" stroke-width="8" stroke-dasharray="180 40" transform="rotate(-45 50 50)" />
+            <circle cx="50" cy="50" r="18" fill="#FFFFFF" />
+            <circle cx="50" cy="50" r="6" fill="#2563EB" />
+            <path d="M 80 30 L 98 20 L 88 38 Z" fill="#2563EB" />
+          </svg>
+          <span class="text-2xl font-black tracking-tight text-white">Bike-<span class="text-blue-500">Able</span></span>
+        </a>
+        <div class="hidden md:flex space-x-6 text-sm font-medium">
+          <a href="#request" class="hover:text-blue-400 transition">Request Dispatch</a>
+          <a href="#safety" class="hover:text-blue-400 transition">Safety & Verification</a>
+          <a href="#riders" class="hover:text-blue-400 transition">Our Couriers</a>
+        </div>
+      </div>
 
-      <div class="space-x-3">
-        <a href="#hire" class="text-slate-600 hover:text-blue-600 font-medium text-sm hidden sm:inline-block">Find Courier</a>
-        <a href="#register" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium text-sm">Register as Rider</a>
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-4 text-sm font-medium">
+        <a href="#register" class="bg-white text-black px-4 py-2 rounded-full font-bold hover:bg-slate-200 transition">Become a Rider</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="bg-slate-950 text-white py-16 px-4 relative overflow-hidden">
-    <div class="max-w-4xl mx-auto text-center relative z-10">
-      <span class="bg-blue-600/20 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 inline-block">Nigeria's No. 1 Cycle Dispatch Network</span>
-      <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">Fast, Reliable Urban Bicycle Deliveries</h1>
-      <p class="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">Connect directly with verified independent bicycle dispatch riders in your area for swift, affordable parcel pickups across town.</p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="#hire" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg shadow-lg hover:bg-blue-500 transition">Hire a Dispatcher</a>
-        <a href="#register" class="bg-slate-800 text-white font-bold px-6 py-3 rounded-lg border border-slate-700 hover:bg-slate-700 transition">Become a Rider</a>
+  <!-- Hero Section with Booking Card (Uber Homepage Style) -->
+  <section class="relative bg-slate-950 py-16 lg:py-24 px-6 overflow-hidden">
+    <!-- Subtle Background Glow -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/30 via-slate-950 to-slate-950"></div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+      
+      <!-- Interactive Dispatch Request Card -->
+      <div class="lg:col-span-5 bg-white text-slate-900 p-8 rounded-2xl shadow-2xl" id="request">
+        <h2 class="text-3xl font-black mb-2 tracking-tight">Dispatch a Courier</h2>
+        <p class="text-slate-500 text-sm mb-6">Eco-friendly package delivery across Nigerian cities. Starts from ₦1,000.</p>
+
+        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Searching for nearest verified Bike-Able rider...');">
+          
+          <!-- Pickup Location -->
+          <div class="relative">
+            <div class="absolute left-3 top-3.5 w-2.5 h-2.5 bg-black rounded-full"></div>
+            <input type="text" required placeholder="Pickup Location (e.g. Ikeja City Mall)" class="w-full pl-9 pr-4 py-3 bg-slate-100 border border-transparent rounded-xl focus:bg-white focus:border-black focus:outline-none text-sm font-medium">
+          </div>
+
+          <!-- Connector Line -->
+          <div class="ml-4 -my-2 border-l-2 border-dashed border-slate-300 h-4"></div>
+
+          <!-- Dropoff Location -->
+          <div class="relative">
+            <div class="absolute left-3 top-3.5 w-2.5 h-2.5 bg-blue-600 rounded-none transform rotate-45"></div>
+            <input type="text" required placeholder="Drop-off Location (e.g. Victoria Island)" class="w-full pl-9 pr-4 py-3 bg-slate-100 border border-transparent rounded-xl focus:bg-white focus:border-black focus:outline-none text-sm font-medium">
+          </div>
+
+          <!-- Package Type -->
+          <div class="pt-2">
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Item Type</label>
+            <select class="w-full p-3 bg-slate-100 border border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-black focus:outline-none">
+              <option>Documents / Light Mail (Fastest)</option>
+              <option>Small Box / Parcel (Up to 5kg)</option>
+              <option>Food / Perishables</option>
+              <option>Bulk Parcel (Cargo Bike Required)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg mt-2 text-center">
+            See Price & Dispatch Now
+          </button>
+        </form>
+      </div>
+
+      <!-- Hero Banner Text -->
+      <div class="lg:col-span-7 text-white space-y-6">
+        <span class="inline-block bg-blue-600/20 text-blue-400 border border-blue-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase">
+          Zero Emissions • Zero Traffic Delays
+        </span>
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-none">
+          Beat the Traffic. <br>Deliver Anything, Anytime.
+        </h1>
+        <p class="text-slate-300 text-lg max-w-xl">
+          Bike-Able connects businesses and individuals with vetted bicycle dispatch couriers across Lagos, Abuja, and major Nigerian cities. Minimum delivery fare starts at ₦1,000.
+        </p>
+        <div class="pt-4 flex flex-wrap gap-8 text-slate-400 text-sm font-medium">
+          <div><strong class="text-white text-xl block font-bold">100%</strong> Vetted Riders</div>
+          <div><strong class="text-white text-xl block font-bold">₦1,000</strong> Base Rate</div>
+          <div><strong class="text-white text-xl block font-bold">Express</strong> Urban Delivery</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Safety & Protocol Section (Uber-style Feature Grid) -->
+  <section class="py-20 px-6 bg-slate-50" id="safety">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mb-12">
+        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Our Security & Verification Protocols</h2>
+        <p class="text-slate-600 mt-2">Every Bike-Able rider undergoes multi-stage screening before joining our network.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Feature 1 -->
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center font-bold text-xl mb-6">🆔</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">National Identity Check</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            All dispatch riders submit a verified government NIN, Driver's License, or Voters Card prior to receiving delivery jobs.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center font-bold text-xl mb-6">📸</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Verified Profile Photo</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Clients can view the rider's clear passport profile photo, live location status, and contact details for safety.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center font-bold text-xl mb-6">🤝</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Guarantor Verification</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Riders provide verified local guarantors and contact protocols to guarantee package security from pickup to drop-off.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Main Content Layout -->
-  <main class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-    
-    <!-- Left Column: Hire / Find Riders -->
-    <section id="hire" class="lg:col-span-2 space-y-6">
-      <div class="flex justify-between items-center">
-        <h2 class="text-2xl font-black text-slate-900">Verified Dispatch Riders</h2>
-        <span class="text-xs font-semibold bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full">Updated Live</span>
+  <!-- Live Verified Couriers Section -->
+  <section class="py-20 px-6 bg-white" id="riders">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+        <div>
+          <h2 class="text-3xl font-black text-slate-900 tracking-tight">Available Couriers Near You</h2>
+          <p class="text-slate-500 text-sm mt-1">Hire vetted dispatchers directly for custom deliveries.</p>
+        </div>
+        <a href="#request" class="text-blue-600 font-bold hover:underline text-sm mt-4 md:mt-0">Book Express Dispatch →</a>
       </div>
 
-      <!-- Search Filter -->
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-3">
-        <input type="text" placeholder="Enter neighborhood or city (e.g., Ikeja, Wuse II)..." class="flex-grow p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm">
-        <button class="bg-slate-900 text-white px-6 py-3 rounded-lg font-bold hover:bg-slate-800 transition text-sm">Search Area</button>
-      </div>
-
-      <!-- Sample Rider Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <!-- Rider Card 1 -->
-        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 hover:border-blue-500 transition">
-          <div class="flex items-center space-x-3 mb-3">
-            <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-lg">AO</div>
+        <!-- Courier Card 1 -->
+        <div class="border border-slate-200 p-6 rounded-2xl hover:border-blue-600 transition shadow-sm">
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-14 h-14 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-xl">AO</div>
             <div>
-              <h3 class="font-bold text-slate-900">Adebayo O.</h3>
+              <h3 class="font-bold text-slate-900 text-lg">Adebayo O.</h3>
               <p class="text-xs text-blue-600 font-semibold">● Verified Rider • Cargo Bike</p>
             </div>
           </div>
-          <p class="text-sm text-slate-600 mb-3">Specializes in document delivery and small package dispatch. Coverage: Lagos Island & Victoria Island.</p>
-          <div class="flex justify-between items-center pt-3 border-t border-slate-100">
-            <span class="font-black text-slate-900">From ₦1,200/trip</span>
-            <button class="bg-blue-600 text-white text-sm font-semibold px-3 py-1.5 rounded hover:bg-blue-700 transition">Contact Rider</button>
+          <p class="text-sm text-slate-600 mb-4">Coverage: Ikeja, Maryland & Allen Avenue. Suitable for heavy packages and express mail.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+            <span class="font-black text-slate-900 text-base">From ₦1,200</span>
+            <button class="bg-black text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition">Hire Courier</button>
           </div>
         </div>
 
-        <!-- Rider Card 2 -->
-        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 hover:border-blue-500 transition">
-          <div class="flex items-center space-x-3 mb-3">
-            <div class="w-12 h-12 bg-slate-100 text-slate-800 rounded-full flex items-center justify-center font-bold text-lg">CI</div>
+        <!-- Courier Card 2 -->
+        <div class="border border-slate-200 p-6 rounded-2xl hover:border-blue-600 transition shadow-sm">
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl">CI</div>
             <div>
-              <h3 class="font-bold text-slate-900">Chidi I.</h3>
+              <h3 class="font-bold text-slate-900 text-lg">Chidi I.</h3>
               <p class="text-xs text-blue-600 font-semibold">● Verified Rider • Road Bike</p>
             </div>
           </div>
-          <p class="text-sm text-slate-600 mb-3">Fast express courier for lightweight packages, documents, and food orders.</p>
-          <div class="flex justify-between items-center pt-3 border-t border-slate-100">
-            <span class="font-black text-slate-900">From ₦1,000/trip</span>
-            <button class="bg-blue-600 text-white text-sm font-semibold px-3 py-1.5 rounded hover:bg-blue-700 transition">Contact Rider</button>
+          <p class="text-sm text-slate-600 mb-4">Coverage: Victoria Island, Lekki Phase 1 & Ikoyi. Ultra-fast document courier.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+            <span class="font-black text-slate-900 text-base">From ₦1,000</span>
+            <button class="bg-black text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition">Hire Courier</button>
+          </div>
+        </div>
+
+        <!-- Courier Card 3 -->
+        <div class="border border-slate-200 p-6 rounded-2xl hover:border-blue-600 transition shadow-sm">
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-14 h-14 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold text-xl">IM</div>
+            <div>
+              <h3 class="font-bold text-slate-900 text-lg">Ibrahim M.</h3>
+              <p class="text-xs text-blue-600 font-semibold">● Verified Rider • E-Bike</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 mb-4">Coverage: Central Business District & Maitama, Abuja. Food & retail package specialist.</p>
+          <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+            <span class="font-black text-slate-900 text-base">From ₦1,500</span>
+            <button class="bg-black text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition">Hire Courier</button>
           </div>
         </div>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Right Column: Registration Form -->
-    <section id="register" class="bg-white p-6 rounded-xl shadow-md border border-slate-200 h-fit">
-      <h2 class="text-xl font-bold mb-1 text-slate-900">Bike-Able Rider Registration</h2>
-      <p class="text-xs text-slate-500 mb-6">Complete verification to join the dispatch network.</p>
+  <!-- Rider Onboarding Section (Full Form Area) -->
+  <section class="py-20 px-6 bg-slate-950 text-white" id="register">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Drive with Bike-Able</span>
+        <h2 class="text-3xl md:text-4xl font-black mt-2 tracking-tight">Earn Money on Your Own Schedule</h2>
+        <p class="text-slate-400 text-sm mt-2 max-w-xl mx-auto">Register as a bicycle courier. Complete identity verification to start accepting delivery requests across your city.</p>
+      </div>
 
-      <form class="space-y-4" onsubmit="event.preventDefault(); alert('Registration submitted! Our team will review your details and contact you within 24 hours.');">
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Full Name</label>
-          <input type="text" name="fullName" required placeholder="e.g. Ibrahim Musa" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Phone Number (WhatsApp)</label>
-          <input type="tel" name="phone" required placeholder="+234 800 000 0000" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Operating State & Area</label>
-          <input type="text" name="area" required placeholder="e.g. Ikeja, Lagos or Wuse, Abuja" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Bicycle Type</label>
-          <select name="bikeType" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm bg-white">
-            <option>Standard Road / City Bike</option>
-            <option>Cargo Bike / Delivery Rack</option>
-            <option>E-Bike (Electric Assisted)</option>
-            <option>Mountain / Hybrid Bike</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Base Delivery Rate (₦)</label>
-          <input type="number" name="rate" min="1000" required placeholder="1000" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
-          <span class="text-[11px] text-slate-400 mt-0.5 block">Minimum rate is ₦1,000 per trip.</span>
-        </div>
-
-        <!-- Verification Protocols Section -->
-        <div class="pt-3 border-t border-slate-200 space-y-3">
-          <p class="text-xs font-bold uppercase tracking-wider text-blue-700">Verification & Security Protocols</p>
+      <div class="bg-white text-slate-900 p-8 rounded-2xl shadow-xl">
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-6" onsubmit="event.preventDefault(); alert('Registration submitted successfully! Our verification team will review your ID and contact you via WhatsApp.');">
           
           <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Clear Profile Passport Photo</label>
-            <input type="file" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Full Name</label>
+            <input type="text" required placeholder="e.g. Ibrahim Musa" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Valid National ID (NIN, Drivers License, Passport)</label>
-            <input type="file" accept="image/*,.pdf" required class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">WhatsApp Phone Number</label>
+            <input type="tel" required placeholder="+234 800 000 0000" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Guarantor Name & Contact</label>
-            <input type="text" name="guarantor" required placeholder="Guarantor Full Name & Phone Number" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Operating State & Location</label>
+            <input type="text" required placeholder="e.g. Ikeja, Lagos or Wuse, Abuja" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
           </div>
-        </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-md text-sm">Submit Application for Verification</button>
-      </form>
-    </section>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Bicycle Category</label>
+            <select class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+              <option>Standard Road / City Bike</option>
+              <option>Cargo Bike / Heavy Frame</option>
+              <option>E-Bike (Electric Assisted)</option>
+              <option>Mountain / Hybrid Bike</option>
+            </select>
+          </div>
 
-  </main>
+          <div class="md:col-span-2">
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Base Rate Per Trip (₦)</label>
+            <input type="number" min="1000" required placeholder="Minimum rate is 1000" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+            <span class="text-xs text-slate-400 mt-1 block">The baseline starting rate for any ride is set at ₦1,000.</span>
+          </div>
 
-  <footer class="bg-slate-950 text-slate-400 py-6 text-center text-sm border-t border-slate-800">
-    <p>&copy; 2026 Bike-Able Nigeria. All rights reserved.</p>
+          <!-- Security Upload Protocol -->
+          <div class="md:col-span-2 space-y-4 pt-4 border-t border-slate-200">
+            <h4 class="text-xs font-black uppercase text-blue-600 tracking-wider">Required Verification Documents</h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Clear Profile Passport Photo</label>
+                <input type="file" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Valid ID Card (NIN, Driver's License, Voter's Card)</label>
+                <input type="file" accept="image/*,.pdf" required class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Guarantor Name & Contact Details</label>
+              <input type="text" required placeholder="Guarantor Full Name & Active Phone Number" class="w-full p-3 bg-slate-100 border rounded-xl text-sm font-medium focus:bg-white focus:outline-none">
+            </div>
+          </div>
+
+          <div class="md:col-span-2 pt-2">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition shadow-lg text-sm">
+              Submit Application for Review
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-slate-400 py-12 px-6 border-t border-slate-900 text-sm">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl font-black text-white">Bike-<span class="text-blue-500">Able</span></span>
+        <span class="text-xs text-slate-500">| Nigeria Urban Dispatch Network</span>
+      </div>
+      <p class="text-xs">&copy; 2026 Bike-Able Technologies Nigeria. All rights reserved.</p>
+    </div>
   </footer>
 
 </body>
